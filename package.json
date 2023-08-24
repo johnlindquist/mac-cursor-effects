@@ -1,0 +1,70 @@
+{
+  "name": "@johnlindquist/mac-cursor-effects",
+  "author": "John Lindquist (https://johnlindquist.com)",
+  "license": "ISC",
+  "version": "0.0.0-development",
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "Access the macOS cursor-effects from Node.js",
+  "main": "index.cjs",
+  "module": "index.js",
+  "exports": {
+    "import": "./index.js",
+    "require": "./index.cjs",
+    "default": "./index.cjs"
+  },
+  "source": "index.ts",
+  "types": "index.d.ts",
+  "files": [
+    "index.js",
+    "binding.gyp",
+    "index.d.ts",
+    "cursor-effects.mm",
+    "build/**/*"
+  ],
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^20.4.5",
+    "esbuild": "^0.18.17",
+    "node-gyp": "^9.4.0",
+    "semantic-release": "^21.0.7",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "bindings": "^1.5.0",
+    "nan": "^2.17.0",
+    "node-addon-api": "^7.0.0"
+  },
+  "scripts": {
+    "build-gyp": "node-gyp rebuild",
+    "build-esm": "esbuild index.ts --bundle --platform=node --packages=external --target=node18 --format=esm --outfile=index.js",
+    "build-cjs": "esbuild index.ts --bundle --platform=node --target=node18 --format=cjs --packages=external  --outfile=index.cjs",
+    "build-d.ts": "tsc index.ts --emitDeclarationOnly -d",
+    "build": "npm run build-gyp && npm run build-esm && npm run build-cjs && npm run build-d.ts",
+    "test": "node test/test.js"
+  },
+  "os": [
+    "darwin"
+  ],
+  "release": {
+    "branches": [
+      "+([0-9]).x",
+      "main",
+      "next",
+      {
+        "name": "beta",
+        "prerelease": true
+      },
+      {
+        "name": "alpha",
+        "prerelease": true
+      }
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/npm"
+    ]
+  }
+}

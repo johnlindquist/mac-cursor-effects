@@ -1,0 +1,1 @@
+# @johnlindquist/mac-cursor-effects
